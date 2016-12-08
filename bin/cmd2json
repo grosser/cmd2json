@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+require 'optparse'
+
+$LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
+require 'cmd2json'
+
+options = {add: {}}
+parser = OptionParser.new do |opts|
+  opts.banner = <<BANNER
+Covert command output and exit status to json to pipe them atomically into logs
+
+Usage:
+    cmd2json [options] echo hello
+
+Options:
+BANNER
+  opts.on("-a", "--add KEY=VALUE", "add a key value pair") { |v| options[:add].send(:[]=, *v.split('=', 2)) }
+  opts.on("-h", "--help", "Show this.") { puts opts; exit }
+  opts.on('-v', '--version', 'Show Version'){ puts Cmd2Json::VERSION; exit 0 }
+end
+
+argv = ARGV.dup
+parser.parse!(Cmd2Json.extract_options!(argv, parser))
+
+abort "need command as argument" if argv.size == 0
+
+status, output = Cmd2Json.run(argv, options)
+puts output
+exit status

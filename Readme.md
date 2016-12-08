@@ -4,15 +4,22 @@ Install
 =======
 
 ```Bash
-gem install cmd2_json
+gem install cmd2json
 ```
 
 Usage
 =====
 
 ```Ruby
-CODE EXAMPLE
+cmd2json -a 'foo=bar' echo hello | logger -t test
+tail -1 /var/log/user.log
+2016-12-08T00:34:17+00:00 app1.hostfoo.com test: {"timestamp":"2016-12-08 00:34:17 +0000", "message":"hello", "exit":"0", "foo":"bar"}
 ```
+
+TODO
+====
+ - `--tee` option that still streams stdout and stderr
+ - stdin support
 
 Author
 ======
