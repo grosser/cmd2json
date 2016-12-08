@@ -15,6 +15,8 @@ Usage:
 Options:
 BANNER
   opts.on("-a", "--add KEY=VALUE", "add a key value pair") { |v| options[:add].send(:[]=, *v.split('=', 2)) }
+  opts.on("-t", "--timestamp", "add @timestamp") { options[:timestamp] = true }
+  opts.on("--host", "add host") { options[:host] = true }
   opts.on("-h", "--help", "Show this.") { puts opts; exit }
   opts.on('-v', '--version', 'Show Version'){ puts Cmd2Json::VERSION; exit 0 }
 end

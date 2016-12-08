@@ -4,7 +4,7 @@ describe "CLI" do
   def sh(command, fail: false)
     result = `#{command}`
     raise "FAIL:\n#{command}\n#{result}" if $?.success? == fail
-    result.sub(/,"timestamp":".+?"/, '')
+    result.sub(/,"@timestamp":".+?"/, ',"@timestamp":"--TIME--"')
   end
 
   it "shows help" do
@@ -25,6 +25,14 @@ describe "CLI" do
 
   it "can add info multiple times" do
     expect(sh("cmd2json -a foo=bar -a bar=baz echo 1")).to eq(%{{"message":"1\\n","exit":0,"foo":"bar","bar":"baz"}\n})
+  end
+
+  it "can add host" do
+    expect(sh("cmd2json --host echo 1")).to eq(%{{"message":"1\\n","exit":0,"host":"#{Socket.gethostname}"}\n})
+  end
+
+  it "can add timestamp" do
+    expect(sh("cmd2json --timestamp echo 1")).to eq(%{{"message":"1\\n","exit":0,"@timestamp":"--TIME--"}\n})
   end
 
   it "can fail" do

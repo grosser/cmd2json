@@ -1,4 +1,5 @@
 require 'json'
+require 'socket'
 
 module Cmd2Json
   def self.run(argv, options={})
@@ -10,7 +11,9 @@ module Cmd2Json
       out = $!.message
       status = 1
     end
-    result = {message: out, exit: status, timestamp: Time.now.to_s}
+    result = {message: out, exit: status}
+    result['@timestamp'] = Time.now if options[:timestamp]
+    result[:host] = Socket.gethostname if options[:host]
     [status, result.merge(options[:add] || {}).to_json]
   end
 
