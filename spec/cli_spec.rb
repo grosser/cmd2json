@@ -40,7 +40,11 @@ describe "CLI" do
   end
 
   it "can fail" do
-    expect(sh("cmd2json ls fail", fail: true)).to eq(%{{"message":"ls: fail: No such file or directory\\n","exit":1}\n})
+    result = sh("cmd2json ls fail", fail: true)
+    # normalize linux/travis
+    result.sub!("cannot access ", '')
+    result.sub!('exit":2', 'exit":1')
+    expect(result).to eq(%{{"message":"ls: fail: No such file or directory\\n","exit":1}\n})
   end
 
   it "captures stderr" do
