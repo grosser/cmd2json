@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cmd2json (0.1.0)
+    cmd2json (0.1.1)
       json
 
 GEM
@@ -35,3 +35,6 @@ DEPENDENCIES
   rake
   rspec
   single_cov
+
+BUNDLED WITH
+   1.13.6
