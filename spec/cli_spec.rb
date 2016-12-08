@@ -46,4 +46,18 @@ describe "CLI" do
   it "captures stderr" do
     expect(sh("cmd2json sh -c 'echo foo 1>&2'")).to eq(%{{"message":"foo\\n","exit":0}\n})
   end
+
+  it "reports when killed" do
+    skip "cannot kill my own sub-process ... so run kill manually to test"
+    [
+      Thread.new { expect(sh("cmd2json sleep 100", fail: true)).to eq(%{{"message":"\nKilled SIGTERM","exit":1}}) },
+      Thread.new do
+        sleep 0.1 # wait for other thread to start
+        processes = `ps -ef | grep '[c]md2json sleep'`
+        pid = processes.split(/\s+/)[2] || raise("No pid")
+        puts "kill #{pid}"
+        # Process.kill(:TERM, pid.to_i)
+      end
+    ].map(&:join)
+  end
 end

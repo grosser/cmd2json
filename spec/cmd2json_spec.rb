@@ -4,7 +4,7 @@ SingleCov.covered!
 
 describe Cmd2Json do
   it "has a VERSION" do
-    expect(Cmd2Json::VERSION).to match /^[\.\da-z]+$/
+    expect(Cmd2Json::VERSION).to match(/^[\.\da-z]+$/)
   end
 
   describe ".run" do
@@ -20,6 +20,16 @@ describe Cmd2Json do
 
     it "catches bad failures" do
       expect(call(['echofoo'])).to eq([1, "{\"message\":\"No such file or directory - echofoo\",\"exit\":1}"])
+    end
+
+    it "records when process was killed" do
+      expect(IO).to receive(:popen).and_raise(SignalException.new(2))
+      expect(call(['sleep', '5'])).to eq([1, "{\"message\":\"\\nKilled SIGINT\",\"exit\":1}"])
+    end
+
+    it "records when subprocess was killed" do
+      expect_any_instance_of(Process::Status).to receive(:exitstatus) # reacts as if subprocess was killed
+      expect(call(['true'])).to eq([1, "{\"message\":\"\\nKilled\",\"exit\":1}"])
     end
   end
 
