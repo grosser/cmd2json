@@ -23,6 +23,10 @@ describe "CLI" do
     expect(sh("cmd2json -a foo=bar echo 1")).to eq(%{{"message":"1\\n","exit":0,"foo":"bar"}\n})
   end
 
+  it "can add info multiple times" do
+    expect(sh("cmd2json -a foo=bar -a bar=baz echo 1")).to eq(%{{"message":"1\\n","exit":0,"foo":"bar","bar":"baz"}\n})
+  end
+
   it "can fail" do
     expect(sh("cmd2json false", fail: true)).to eq(%{{"message":"","exit":1}\n})
   end

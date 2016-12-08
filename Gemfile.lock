@@ -35,6 +35,3 @@ DEPENDENCIES
   rake
   rspec
   single_cov
-
-BUNDLED WITH
-   1.13.6
