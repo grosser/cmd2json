@@ -20,6 +20,7 @@ TODO
 ====
  - `--tee` option that still streams stdout and stderr
  - stdin support
+ - handle getting killed nicely
 
 Author
 ======
