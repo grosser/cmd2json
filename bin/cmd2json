@@ -18,7 +18,7 @@ BANNER
   opts.on("-t", "--timestamp", "add @timestamp") { options[:timestamp] = true }
   opts.on("--host", "add host") { options[:host] = true }
   opts.on("-h", "--help", "Show this.") { puts opts; exit }
-  opts.on('-v', '--version', 'Show Version'){ puts Cmd2Json::VERSION; exit 0 }
+  opts.on('-v', '--version', 'Show Version'){ require 'cmd2json/version'; puts Cmd2Json::VERSION; exit 0 }
 end
 
 argv = ARGV.dup
