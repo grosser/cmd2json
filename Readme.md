@@ -7,6 +7,12 @@ Install
 gem install cmd2json
 ```
 
+or standalone
+```Bash
+curl https://rubinjam.herokuapp.com/pack/cmd2json > cmd2json && chmod +x cmd2json
+./cmd2json -v
+```
+
 Usage
 =====
 
